@@ -4,7 +4,9 @@
 --[[....................................]]--
 
 Config = {}
- Config.MdtWebhook "https;//discord"
+Config.MdtWebhook = "https://discord"
+Config.webhookColor = 16711680
+Config.mdtname = "MDT Logs"
 --[[ Command ]]--
 Config.Command = "medmdt"
 

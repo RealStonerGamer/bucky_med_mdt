@@ -238,6 +238,11 @@ RegisterServerEvent("bucky_med_mdt:saveReportChanges")
 AddEventHandler("bucky_med_mdt:saveReportChanges", function(data)
 	exports.oxmysql:execute('UPDATE `mdt_med_reports` SET `title` = ?, `incident` = ? WHERE `id` = ?', {data.id, data.title, data.incident})
 	TriggerClientEvent("bucky_med_mdt:sendNotification", source, Config.Notify['2'])
+	local message =  "title:" ..data.title.."\n incident: "..data.incident.."\n report date:" ..data.date
+	local Webhook = Config.MdtWebhook
+	local WebhookTitle= "changed Report webhook "
+	VORPCore.AddWebhook(WebhookTitle, Webhook, message,Config.webhookColor, Config.mdtname)
+
 end)
 
 RegisterServerEvent("bucky_med_mdt:deleteReport")
@@ -265,9 +270,9 @@ AddEventHandler("bucky_med_mdt:submitNewReport", function(data)
 		TriggerEvent("bucky_med_mdt:getReportDetailsById", id, usource)
 		TriggerClientEvent("bucky_med_mdt:sendNotification", usource, Config.Notify['4'])
 		local message =  "title:" ..data.title.."\n incident: "..data.incident.. "\n Charges:"..charges.. "\n officer that made report:"..officername.."\n offender name:" ..data.name.."\n report date:" ..data.date
-		local Webhook = "http://discord."
+		local Webhook = Config.MdtWebhook
 		local WebhookTitle= "New Report webhook "
-		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message,Config.webhookColor, Config.mdtname)
 
 	end)
 
@@ -296,7 +301,7 @@ AddEventHandler("bucky_med_mdt:submitNote", function(data)
 		local message =  "notes title:" ..data.title.. "\n officer that made note:"..officername.."\n Note info" ..data.note.."\n note date:" ..data.date
 		local Webhook =  Config.MdtWebhook
 		local WebhookTitle= "New Note webhook "
-		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message,Config.webhookColor, Config.mdtname)
 	end)
 end)
 
@@ -345,7 +350,7 @@ AddEventHandler("bucky_med_mdt:submitNewWarrant", function(data)
 		local message =  "report title:" ..data.report_title.. "\n Charges:".. data.charges.. "\n officer that made report:"..data.author.."\n offender name:" ..data.name.. "\n notes: " ..data.notes.."\n report date:" ..data.date.."\nexpires om : " ..data.expire
 		local Webhook = Config.MdtWebhook
 		local WebhookTitle= "New Warrant webhook "
-		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message,Config.webhookColor, Config.mdtname)
 	end)
 end)
 
