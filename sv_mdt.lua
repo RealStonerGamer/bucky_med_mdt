@@ -264,6 +264,11 @@ AddEventHandler("bucky_med_mdt:submitNewReport", function(data)
 	exports.oxmysql:insert('INSERT INTO `mdt_med_reports` (`char_id`, `title`, `incident`, `charges`, `author`, `name`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?)', {data.char_id, data.title, data.incident, charges, officername, data.name, data.date,}, function(id)
 		TriggerEvent("bucky_med_mdt:getReportDetailsById", id, usource)
 		TriggerClientEvent("bucky_med_mdt:sendNotification", usource, Config.Notify['4'])
+		local message =  "title:" ..data.title.."\n incident: "..data.incident.. "\n Charges:"..charges.. "\n officer that made report:"..officername.."\n offender name:" ..data.name.."\n report date:" ..data.date
+		local Webhook = "http://discord."
+		local WebhookTitle= "New Report webhook "
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
+
 	end)
 
 	for offense, count in pairs(data.charges) do
@@ -276,6 +281,7 @@ AddEventHandler("bucky_med_mdt:submitNewReport", function(data)
 		end)
 	end
 end)
+
 
 RegisterServerEvent("bucky_med_mdt:submitNote")
 AddEventHandler("bucky_med_mdt:submitNote", function(data)
