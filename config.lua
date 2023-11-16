@@ -5,6 +5,7 @@
 
 Config = {}
 
+Config.MdtWebhook = "https://discord"
 --[[ Command ]]--
 Config.Command = "medmdt"
 

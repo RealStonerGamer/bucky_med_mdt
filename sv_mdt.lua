@@ -282,7 +282,6 @@ AddEventHandler("bucky_med_mdt:submitNewReport", function(data)
 	end
 end)
 
-
 RegisterServerEvent("bucky_med_mdt:submitNote")
 AddEventHandler("bucky_med_mdt:submitNote", function(data)
 	local usource = source
@@ -294,6 +293,10 @@ AddEventHandler("bucky_med_mdt:submitNote", function(data)
 	exports.oxmysql:insert('INSERT INTO `mdt_med_notes` ( `title`, `incident`, `author`, `date`) VALUES (?, ?, ?, ?)', {data.title, data.note, officername, data.date,}, function(id)
 		TriggerEvent("bucky_med_mdt:getNoteDetailsById", id, usource)
 		TriggerClientEvent("bucky_med_mdt:sendNotification", usource, Config.Notify['8'])
+		local message =  "notes title:" ..data.title.. "\n officer that made note:"..officername.."\n Note info" ..data.note.."\n note date:" ..data.date
+		local Webhook = "http://discord."
+		local WebhookTitle= "New Note webhook "
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
 	end)
 end)
 
@@ -339,6 +342,10 @@ AddEventHandler("bucky_med_mdt:submitNewWarrant", function(data)
 	exports.oxmysql:insert('INSERT INTO `mdt_med_warrants` (`name`, `char_id`, `report_id`, `report_title`, `charges`, `date`, `expire`, `notes`, `author`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', {data.name, data.char_id, data.report_id, data.report_title, data.charges, data.date, data.expire, data.notes, data.author}, function()
 		TriggerClientEvent("bucky_med_mdt:completedWarrantAction", usource)
 		TriggerClientEvent("bucky_med_mdt:sendNotification", usource, Config.Notify['5'])
+		local message =  "report title:" ..data.report_title.. "\n Charges:".. data.charges.. "\n officer that made report:"..data.author.."\n offender name:" ..data.name.. "\n notes: " ..data.notes.."\n report date:" ..data.date.."\nexpires om : " ..data.expire
+		local Webhook = Config.MdtWebhook
+		local WebhookTitle= "New Warrant webhook "
+		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
 	end)
 end)
 
