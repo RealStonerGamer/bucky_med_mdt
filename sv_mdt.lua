@@ -294,7 +294,7 @@ AddEventHandler("bucky_med_mdt:submitNote", function(data)
 		TriggerEvent("bucky_med_mdt:getNoteDetailsById", id, usource)
 		TriggerClientEvent("bucky_med_mdt:sendNotification", usource, Config.Notify['8'])
 		local message =  "notes title:" ..data.title.. "\n officer that made note:"..officername.."\n Note info" ..data.note.."\n note date:" ..data.date
-		local Webhook = "http://discord."
+		local Webhook =  Config.MdtWebhook
 		local WebhookTitle= "New Note webhook "
 		VORPCore.AddWebhook(WebhookTitle, Webhook, message)
 	end)
